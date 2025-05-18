@@ -1,16 +1,18 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Star, Sparkles, Heart, ArrowRight } from "lucide-react";
+import { Search, Star, Sparkles, Heart, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import GameCard from "../components/GameCard";
+import { Link, useNavigate } from "react-router-dom";
+import StarParticles from "@/components/StarParticles";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("体验设计项目");
   const [searchQuery, setSearchQuery] = useState("");
-  const canvasRef = useRef(null);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const particlesRef = useRef([]);
-  const animationFrameIdRef = useRef(null);
+  const [featuredIndex, setFeaturedIndex] = useState(0);
+  const [hoveredStandardIndex, setHoveredStandardIndex] = useState(null);
+  const [hoveredCreativeIndex, setHoveredCreativeIndex] = useState(null);
 
   // 项目分类数据
   const categories = [
@@ -24,25 +26,58 @@ const Index = () => {
   const featuredProjects = [
     {
       id: 1,
-      title: "美食频道异地氪围AIGC专项",
-      description: "图像和软硬件服务设计中心/创意氪钻设计组",
+      title: "美食频道页异地氛围AIGC专项",
+      description: "团购和软硬件服务设计中心/创意营销设计组",
       tags: ["80+", "创意", "C端"],
-      image: "https://nocode.meituan.com/photo/search?keyword=food,design&width=400&height=300&source=meituan"
+      image: "https://nocode.meituan.com/photo/search?keyword=food,design&width=400&height=300&source=meituan",
+      content: "本项目提供了提升异地场景用户代入感的设计思路，核心在于融合文化符号与场景叙事。同时通过异地建筑AIGC生产流程，采用定制化Lora等方法，实现了高质量视觉内容的高效生成。项目沉淀的设计资产及AIGC方法可供复用，为业务提供优质视觉支持并提升效率。",
+      subDesc: "AIGC ｜ 城市风貌 ｜ 建筑生成 ｜ 风格迁移"
     },
     {
       id: 2,
-      title: "城市风貌设计系统",
-      description: "建筑生态与风格迁移研究",
-      tags: ["90+", "标准", "B端"],
-      image: "https://nocode.meituan.com/photo/search?keyword=city,architecture&width=400&height=300&source=meituan"
+      title: "214情人节活动设计",
+      description: "美团平台设计中心/用户增长与运营设计组",
+      tags: ["80+", "创意", "C端"],
+      image: "https://nocode.meituan.com/photo/search?keyword=city,architecture&width=400&height=300&source=meituan",
+      content: "1. 情人节活动通过构建场景化情感交互体系，将节日情绪价值转化为消费驱动力，增强用户与美团品牌之间的情感连接。\n2. 沉淀了活动玩法AIGC的方法论以及动效spine动画的经验，有效提高活动设计效率，降低动画大小，提升玩法性能和动画流畅度",
+      subDesc: "AIGC ｜ 情绪价值 ｜ 节日营销"
     },
     {
       id: 3,
-      title: "异地体验交互设计",
-      description: "学城星空主题体验设计",
-      tags: ["体验", "创新", "C端"],
-      image: "https://nocode.meituan.com/photo/search?keyword=space,experience&width=400&height=300&source=meituan"
+      title: "异地地图探索模式设计",
+      description: "外卖和履约平台设计中心/外卖用户端设计组",
+      tags: ["90+", "体验", "C端"],
+      image: "https://nocode.meituan.com/photo/search?keyword=space,experience&width=400&height=300&source=meituan",
+      content: "创新地图交互模式，提升异地探索效率。通过视觉与动效优化，增强用户定位感和探索欲望，助力业务场景拓展。",
+      subDesc: "AIGC ｜ 情绪价值 ｜ 异地场景"
+    },
+    {
+      id: 4,
+      title: "乐生活春节大促营销活动",
+      description: "团购和软硬件服务设计中心/创意营销设计组",
+      tags: ["80+", "创意", "C端"],
+      image: "https://nocode.meituan.com/photo/search?keyword=brand,upgrade&width=400&height=300&source=meituan",
+      content: "通过AI实践创新，乐生活春节大促完成直营58城市的投放活动，会场曝光UV852w+，意向UV11w+，访购率提升2.7pp，成功塑造'春节玩乐上美团'的用户认知，为团队提供可复用的AI+场景设计创意范式。",
+      subDesc: "AIGC ｜ 春节大促 "
+    },
+    {
+      id: 5,
+      title: "2024骑手年终盘点配送报告H5设计",
+      description: "品牌创意设计中心/品牌设计组",
+      tags: ["80+", "创意", "C端"],
+      image: "https://nocode.meituan.com/photo/search?keyword=ip,creative&width=400&height=300&source=meituan",
+      content: "骑手端年度配送报告是骑手专属、回顾自我价值的载体，结合AIGC构建'空降美食星球'奇幻化主线叙事，通过有温度感的画面与数据展现，为骑手重温过往一年的点滴成就，增强骑手对平台的归属感与职业认同感。",
+      subDesc: "骑手配送报告 ｜​ AI工具提效 ｜ ​奇幻叙事"
     }
+  ];
+
+  // 精选项目图片资源
+  const featuredImages = [
+    '/pj1.png',
+    '/pj2.png',
+    '/pj3.png',
+    '/pj4.png',
+    '/pj5.png',
   ];
 
   // 项目卡片数据
@@ -54,7 +89,8 @@ const Index = () => {
       iconBg: "bg-yellow-500/20",
       description: "异地地图探索模式设计、品牌链路...",
       count: 21,
-      color: "from-yellow-500/30 to-yellow-600/10"
+      color: "from-yellow-500/30 to-yellow-600/10",
+      filter: "90+"
     },
     {
       id: 2,
@@ -63,7 +99,8 @@ const Index = () => {
       iconBg: "bg-green-500/20",
       description: "美食频道异地氪围AIGC专项, 214...",
       count: 68,
-      color: "from-green-500/30 to-green-600/10"
+      color: "from-green-500/30 to-green-600/10",
+      filter: "80+"
     },
     {
       id: 3,
@@ -72,7 +109,8 @@ const Index = () => {
       iconBg: "bg-purple-500/20",
       description: "美食频道异地氪围AIGC专项, 214...",
       count: 43,
-      color: "from-purple-500/30 to-purple-600/10"
+      color: "from-purple-500/30 to-purple-600/10",
+      filter: "创意"
     },
     {
       id: 4,
@@ -81,7 +119,8 @@ const Index = () => {
       iconBg: "bg-pink-500/20",
       description: "异地地图探索模式设计、学城星空...",
       count: 25,
-      color: "from-pink-500/30 to-pink-600/10"
+      color: "from-pink-500/30 to-pink-600/10",
+      filter: "体验"
     }
   ];
 
@@ -104,184 +143,292 @@ const Index = () => {
     }
   ];
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  const handlePrev = () => setFeaturedIndex((prev) => (prev - 1 + featuredProjects.length) % featuredProjects.length);
+  const handleNext = () => setFeaturedIndex((prev) => (prev + 1) % featuredProjects.length);
+
+  const handleCardClick = (filter) => {
+    // 使用 window.scrollTo 确保页面滚动到顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     
-    const ctx = canvas.getContext('2d');
+    // 根据不同的筛选条件设置对应的参数
+    let filterParams = '';
+    switch(filter) {
+      case '90+':
+        filterParams = '?score=90&tab=体验设计项目';
+        break;
+      case '80+':
+        filterParams = '?score=80&tab=体验设计项目';
+        break;
+      case '创意':
+        filterParams = '?tab=创意项目';
+        break;
+      case '体验':
+        filterParams = '?tab=体验设计项目';
+        break;
+      default:
+        filterParams = '';
+    }
     
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    
-    const createParticle = (x, y) => ({
-      x,
-      y,
-      size: Math.random() * 3 + 1,
-      speedX: (Math.random() - 0.5) * 2,
-      speedY: (Math.random() - 0.5) * 2,
-      color: `hsla(${260 + Math.random() * 60}, 100%, 70%, ${Math.random() * 0.5 + 0.3})`,
-      life: Math.random() * 0.8 + 0.2
-    });
-    
-    const handleMouseMove = (e) => {
-      mouseRef.current = {
-        x: e.clientX,
-        y: e.clientY
-      };
-      
-      // 鼠标移动时创建粒子
-      for (let i = 0; i < 3; i++) {
-        particlesRef.current.push(createParticle(
-          e.clientX + (Math.random() - 0.5) * 20,
-          e.clientY + (Math.random() - 0.5) * 20
-        ));
-      }
-    };
-    
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // 更新和绘制粒子
-      particlesRef.current = particlesRef.current.filter(particle => {
-        particle.x += particle.speedX;
-        particle.y += particle.speedY;
-        particle.life -= 0.01;
-        
-        if (particle.life > 0) {
-          ctx.beginPath();
-          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-          ctx.fillStyle = particle.color.replace(')', `, ${particle.life})`);
-          ctx.fill();
-          return true;
-        }
-        return false;
-      });
-      
-      // 随机添加背景粒子
-      if (Math.random() < 0.1) {
-        particlesRef.current.push(createParticle(
-          Math.random() * canvas.width,
-          Math.random() * canvas.height
-        ));
-      }
-      
-      animationFrameIdRef.current = requestAnimationFrame(animate);
-    };
-    
-    window.addEventListener('resize', resizeCanvas);
-    canvas.addEventListener('mousemove', handleMouseMove);
-    
-    resizeCanvas();
-    animate();
-    
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      if (animationFrameIdRef.current) {
-        cancelAnimationFrame(animationFrameIdRef.current);
-      }
-    };
-  }, []);
+    // 使用 setTimeout 确保滚动动画完成后再跳转
+    setTimeout(() => {
+      navigate(`/discover${filterParams}`);
+    }, 100);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white relative overflow-hidden">
-      {/* 背景粒子效果 */}
-      <canvas
-        ref={canvasRef}
-        className="fixed inset-0 pointer-events-none z-0"
+    <div className="min-h-screen bg-[#1C1B24] text-white relative overflow-hidden">
+      {/* 星星粒子动画 */}
+      <StarParticles />
+      {/* 顶部吸顶背景图 */}
+      <img 
+        src="/bg1.png" 
+        alt="bg1" 
+        className="pointer-events-none select-none w-full absolute top-0 left-0 z-0" 
+        style={{
+          objectFit: 'cover',
+          filter: 'blur(0px)',
+          transition: 'filter 0.3s ease'
+        }} 
+      />
+      {/* 底部吸底背景图 */}
+      <img 
+        src="/bg2.png" 
+        alt="bg2" 
+        className="pointer-events-none select-none w-full absolute bottom-0 left-0 z-0" 
+        style={{
+          objectFit: 'cover',
+          filter: 'blur(0px)',
+          transition: 'filter 0.3s ease'
+        }} 
       />
       
       {/* 顶部导航 */}
-      <header className="relative z-10 border-b border-purple-900/30 bg-black/30 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-6">
+      <header className="relative z-10 h-[52px] flex items-center border-none">
+        <div className="container mx-auto px-4 py-0 flex items-center justify-between h-full">
+          <div className="flex items-center space-x-12 h-full">
             <div className="flex items-center space-x-2">
-              <Sparkles className="h-5 w-5 text-purple-400" />
-              <span className="font-bold text-lg text-purple-300">这设计妙</span>
+              <img src="/logo.svg" alt="这设计妙" className="h-7" />
             </div>
-            <nav className="hidden md:flex space-x-6">
-              <a href="#" className="text-purple-300 border-b-2 border-purple-500 pb-1">首页</a>
-              <a href="#" className="text-gray-400 hover:text-purple-300 transition-colors">发现</a>
+            <nav className="hidden md:flex space-x-6 h-full">
+              <Link to="/" className="text-[#9A4DFF] border-b-2 border-[#9A4DFF] pb-[13px] h-full flex items-end">首页</Link>
+              <Link to="/discover" className="text-[#F3F3F4] hover:text-[#9A4DFF] transition-colors h-full flex items-end pb-[13px] border-b-2 border-transparent">发现</Link>
             </nav>
           </div>
           <div className="flex items-center">
             <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
           </div>
         </div>
+        {/* header底部分割线 */}
+        <div className="absolute left-0 bottom-0 w-full h-px" style={{background: 'rgba(255,255,255,0.15)'}} />
       </header>
       
       {/* 主标题区域 */}
-      <section className="relative z-10 py-16 text-center">
-        <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-300 to-purple-300">
-          Excellent Project
-        </h1>
-        
+      <section className="relative z-10 pt-16 pb-0 text-center">
         {/* 搜索框 */}
-        <div className="max-w-md mx-auto px-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+        <div className="flex justify-center mt-[48px]">
+          <div className="relative" style={{width: '540px'}}>
             <Input
               type="text"
               placeholder="搜索项目标题"
-              className="pl-10 bg-gray-800/50 border-purple-500/30 text-gray-200 focus:border-purple-500 focus:ring-purple-500/30"
+              className="w-[540px] h-[40px] pl-4 pr-12 bg-[#262140]/45 border-[rgba(251,250,255,0.3)] text-gray-200 focus:border-[rgba(251,250,255,0.3)] focus:ring-[rgba(251,250,255,0.3)] rounded-md"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                background: 'rgba(38,33,64,0.45)',
+                borderColor: 'rgba(251,250,255,0.3)',
+                height: '40px',
+                width: '540px',
+                outline: 'none',
+                transition: 'border 0.2s',
+              }}
+              onFocus={e => {
+                e.target.style.borderColor = '#D5CBFF';
+                e.target.style.borderWidth = '1.5px';
+              }}
+              onBlur={e => {
+                e.target.style.borderColor = 'rgba(251,250,255,0.3)';
+                e.target.style.borderWidth = '1px';
+              }}
             />
+            <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" style={{width: '20px', height: '20px'}} />
           </div>
         </div>
       </section>
       
       {/* 精选项目轮播 */}
-      <section className="relative z-10 py-8 overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-purple-300">精选项目</h2>
-            <div className="text-sm text-gray-400">
-              <span className="font-bold text-purple-400">NEW</span> 2023年第28期
+      <section className="relative z-10 overflow-hidden h-[468px] mt-[36px] mb-[66px] max-w-[1360px] w-full mx-auto flex items-start p-0">
+        {/* 精选项目区域背景图 */}
+        <img 
+          src="/精选项目背景.png" 
+          alt="精选项目背景" 
+          className="absolute left-0 top-0 z-0" 
+          style={{
+            width: '667px', 
+            height: '468px', 
+            objectFit: 'contain', 
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)'
+          }} 
+        />
+        <div className="relative z-10 h-full flex w-full" style={{height: '468px'}}>
+          {/* 左侧说明内容 */}
+          <div className="relative flex flex-col" style={{width: '400px', minWidth: '400px', maxWidth: '400px', height: '468px'}}>
+            {/* 期数展示区绝对定位 */}
+            <div className="absolute left-0 top-0 z-20" style={{height: '32px'}}>
+              <span
+                className="inline-flex items-center text-white shadow-sm"
+                style={{
+                  height: '32px',
+                  lineHeight: '20px',
+                  background: 'rgba(125,119,155,0.6)',
+                  borderRadius: '12px 0 8px 0',
+                  color: '#FFFFFF',
+                  fontSize: '12px',
+                  fontWeight: 400,
+                  padding: '6px 8px',
+                }}
+              >
+                {featuredIndex === 0 && (
+                  <img src="/new.svg" alt="new" style={{marginRight: 4, height: 16, width: 32, display: 'inline-block', verticalAlign: 'middle'}} />
+                )}
+                {`2025年第${28 - featuredIndex}期`}
+              </span>
+            </div>
+            <div style={{padding: '56px 0 0 24px', height: '100%'}}>
+              <h3 style={{fontSize: '24px', fontWeight: 600, color: '#fff', marginBottom: '4px', lineHeight: '32px'}}>{featuredProjects[featuredIndex].title}</h3>
+              <p style={{fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px', lineHeight: '22px'}}>{featuredProjects[featuredIndex].description}</p>
+              <div className="flex" style={{gap: '8px', marginBottom: '24px'}}>
+                {featuredProjects[featuredIndex].tags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    style={{
+                      height: '20px',
+                      width: '40px',
+                      borderRadius: '2px',
+                      background: 'rgba(125,119,155,0.3)',
+                      color: 'rgba(255,255,255,0.6)',
+                      fontSize: '12px',
+                      fontWeight: 400,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div style={{marginTop: '24px', width: '328px', fontSize: '14px', color: 'rgba(255,255,255,0.9)', lineHeight: '22px', wordBreak: 'break-all'}}>
+                {featuredProjects[featuredIndex].content}
+              </div>
+              {/* 分割线 */}
+              <div style={{marginTop: '16px', width: '328px', height: '1px', background: 'rgba(255,255,255,0.15)'}} />
+              {/* 补充文本 */}
+              <div style={{marginTop: '16px', width: '328px', fontSize: '14px', color: 'rgba(255,255,255,0.6)', lineHeight: '22px'}}>
+                {featuredProjects[featuredIndex].subDesc}
+              </div>
+            </div>
+            {/* 去看看按钮 */}
+            <div style={{position: 'absolute', left: 24, bottom: 24, borderRadius: '18px', padding: '0px', width: '120px', height: '36px', boxSizing: 'border-box', border: '1.5px solid #956BFF', background: 'transparent'}}>
+              <button
+                style={{
+                  width: '120px',
+                  height: '36px',
+                  background: 'rgba(107,78,255,0.3)',
+                  border: 'none',
+                  borderRadius: '18px',
+                  color: '#fff',
+                  fontSize: '14px',
+                  fontWeight: 400,
+                  cursor: 'pointer',
+                  outline: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 0,
+                  boxSizing: 'border-box',
+                  backgroundClip: 'padding-box',
+                  lineHeight: 'normal',
+                }}
+              >
+                <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%'}}>
+                  去看看
+                  <img src="/star.svg" alt="star" style={{marginLeft: 4, height: 14, width: 21, verticalAlign: 'middle'}} />
+                </span>
+              </button>
             </div>
           </div>
-          
-          <div className="flex space-x-6 overflow-x-auto pb-6 snap-x">
-            {featuredProjects.map((project) => (
-              <div 
-                key={project.id}
-                className="min-w-[300px] md:min-w-[400px] bg-gray-800/30 rounded-lg overflow-hidden border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 snap-center group"
+          {/* 右侧图片堆叠轮播 */}
+          <div className="hidden md:flex relative flex-shrink-0 overflow-visible" style={{width: '960px', height: '468px'}}>
+            {/* 翻页器按钮右下角 */}
+            <div style={{position: 'absolute', right: 32, bottom: 24, zIndex: 30, display: 'flex', gap: '16px'}}>
+              <button
+                onClick={handlePrev}
+                style={{
+                  borderRadius: '50%',
+                  width: 40,
+                  height: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 0,
+                  background: 'rgba(125,119,155,0.8)',
+                  border: '1px solid rgba(255,255,255,0.7)',
+                  cursor: 'pointer',
+                  outline: 'none',
+                  transition: 'background 0.2s, border 0.2s',
+                }}
               >
-                <div className="relative h-48 overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 p-4">
-                    <h3 className="text-lg font-semibold text-white">{project.title}</h3>
-                    <p className="text-sm text-gray-300">{project.description}</p>
-                  </div>
-                </div>
-                <div className="p-4 flex items-center justify-between">
-                  <div className="flex space-x-2">
-                    {project.tags.map((tag, index) => (
-                      <span 
-                        key={index}
-                        className="px-2 py-1 text-xs rounded-full bg-purple-900/30 text-purple-300"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    className="text-purple-300 hover:text-purple-200 hover:bg-purple-900/20"
-                  >
-                    查看详情
-                  </Button>
-                </div>
-              </div>
-            ))}
+                <img src="/left.svg" alt="上一张" style={{width: 24, height: 24}} />
+              </button>
+              <button
+                onClick={handleNext}
+                style={{
+                  borderRadius: '50%',
+                  width: 40,
+                  height: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 0,
+                  background: 'rgba(125,119,155,0.8)',
+                  border: '1px solid rgba(255,255,255,0.7)',
+                  cursor: 'pointer',
+                  outline: 'none',
+                  transition: 'background 0.2s, border 0.2s',
+                }}
+              >
+                <img src="/right.svg" alt="下一张" style={{width: 24, height: 24}} />
+              </button>
+            </div>
+            {featuredImages.map((img, i) => {
+              // 计算当前图片在堆叠中的实际位置
+              const idx = (i - featuredIndex + featuredImages.length) % featuredImages.length;
+              let style = {
+                transition: 'all 0.5s cubic-bezier(.4,2,.6,1)',
+                position: 'absolute',
+                left: `${idx * 72}px`,
+                top: 0,
+                width: '671px',
+                height: '468px',
+                borderRadius: '24px',
+                boxShadow: '0 8px 32px 0 rgba(80,40,120,0.18)',
+                objectFit: 'cover',
+                zIndex: 10 - idx,
+                opacity: idx < 5 ? 1 : 0,
+                filter: idx === 0 ? 'none' : 'blur(0.7px) brightness(0.96)',
+              };
+              return (
+                <img
+                  key={img}
+                  src={img}
+                  alt={`精选项目${i+1}`}
+                  style={style}
+                  draggable={false}
+                />
+              );
+            })}
           </div>
         </div>
       </section>
@@ -290,75 +437,223 @@ const Index = () => {
       <section className="relative z-10 py-8">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {projectCards.map((card) => (
-              <div 
-                key={card.id}
-                className={`p-6 rounded-lg border border-gray-700/50 bg-gradient-to-br ${card.color} backdrop-blur-sm hover:border-gray-600/50 transition-all duration-300`}
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <div className={`p-2 rounded-lg ${card.iconBg}`}>
-                      {card.icon}
-                    </div>
-                    <h3 className="font-semibold text-white">{card.title}</h3>
+            {projectCards.map((card) => {
+              let imgProps = null;
+              if (card.title === "90+项目") {
+                imgProps = { src: "/kard1.png", alt: "90+项目" };
+              } else if (card.title === "80+项目") {
+                imgProps = { src: "/kard2.png", alt: "80+项目" };
+              } else if (card.title === "创意项目") {
+                imgProps = { src: "/kard3.png", alt: "创意项目" };
+              } else if (card.title === "体验项目") {
+                imgProps = { src: "/kard4.png", alt: "体验项目" };
+              }
+              if (imgProps) {
+                return (
+                  <div
+                    key={card.id}
+                    className="w-[320px] h-[141px] rounded-[12px] overflow-hidden shadow-lg bg-transparent cursor-pointer"
+                    style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+                    onClick={() => handleCardClick(card.filter)}
+                  >
+                    <img
+                      {...imgProps}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: 0 }}
+                      alt={imgProps.alt}
+                    />
                   </div>
-                  <ArrowRight className="h-4 w-4 text-gray-400" />
-                </div>
-                <p className="text-sm text-gray-300 mb-3 line-clamp-1">{card.description}</p>
-                <div className="text-xs text-gray-400">等{card.count}个</div>
-              </div>
-            ))}
+                );
+              } else {
+                return (
+                  <div 
+                    key={card.id}
+                    className={`p-6 rounded-lg border border-gray-700/50 bg-gradient-to-br ${card.color} backdrop-blur-sm hover:border-gray-600/50 transition-all duration-300 cursor-pointer`}
+                    onClick={() => handleCardClick(card.filter)}
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className={`p-2 rounded-lg ${card.iconBg}`}>
+                          {card.icon}
+                        </div>
+                        <h3 className="font-semibold text-white">{card.title}</h3>
+                      </div>
+                      <ArrowRight className="h-4 w-4 text-gray-400" />
+                    </div>
+                    <p className="text-sm text-gray-300 mb-3 line-clamp-1">{card.description}</p>
+                    <div className="text-xs text-gray-400">等{card.count}个</div>
+                  </div>
+                );
+              }
+            })}
           </div>
         </div>
       </section>
       
       {/* 90+标准区域 */}
-      <section className="relative z-10 py-12">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-purple-300">90+标准</h2>
-            <Button 
-              variant="link" 
-              className="text-purple-400 hover:text-purple-300"
-            >
-              设计部 90+项目标准
-            </Button>
+      <section className="relative z-10" style={{width: '1360px', minHeight: '370px', margin: '0 auto', position: 'relative'}}>
+        {/* 90+标准区背景图 */}
+        <img src="/90标准说明.svg" alt="90+标准说明" style={{position: 'absolute', left: 0, top: 0, width: '1360px', height: '370px', objectFit: 'cover', zIndex: 0}} />
+        {/* 右上角文字链接 */}
+        <a
+          href="#"
+          style={{
+            position: 'absolute',
+            top: 30,
+            right: 30,
+            display: 'flex',
+            alignItems: 'center',
+            color: '#C69EFF',
+            fontSize: 14,
+            fontWeight: 400,
+            textDecoration: 'none',
+            zIndex: 2
+          }}
+        >
+          <img src="/link-o.svg" alt="link" style={{width: 16, height: 16, marginRight: 4, display: 'inline-block', verticalAlign: 'middle'}} />
+          设计部90+项目标准
+        </a>
+        <div className="container mx-auto relative z-10" style={{height: '100%', paddingLeft: '24px', paddingBottom: '24px'}}>
+          {/* 标题 */}
+          <div style={{paddingTop: 24, marginBottom: 20}}>
+            <h2 style={{fontSize: 24, fontWeight: 500, color: '#fff', margin: 0}}>90+标准</h2>
           </div>
-          
-          {/* 标准分类标签 */}
-          <div className="flex flex-wrap gap-4 mb-8">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                className={`px-4 py-2 rounded-full text-sm transition-all ${
-                  activeTab === category.id
-                    ? "bg-purple-600/30 text-purple-200 border border-purple-500/50"
-                    : "bg-gray-800/50 text-gray-400 border border-gray-700/50 hover:bg-gray-700/50"
-                }`}
-                onClick={() => setActiveTab(category.id)}
-              >
-                {category.label}
-              </button>
-            ))}
+          {/* tab选项 */}
+          <div style={{display: 'flex', gap: '32px', marginBottom: 16, position: 'relative'}}>
+            {[
+              "体验设计项目", "创意项目"
+            ].map((tab) => {
+              const selected = activeTab === tab;
+              return (
+                <div key={tab} style={{position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                  <button
+                    onClick={() => setActiveTab(tab)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      outline: 'none',
+                      fontSize: 16,
+                      fontWeight: 500,
+                      color: selected ? '#fff' : 'rgba(255,255,255,0.6)',
+                      cursor: 'pointer',
+                      padding: 0,
+                      margin: 0,
+                      minWidth: '80px',
+                      height: '32px',
+                    }}
+                  >
+                    {tab}
+                  </button>
+                  {selected && (
+                    <img src="/选择条.svg" alt="tab高亮" style={{marginTop: 0, width: 109, height: 12}} />
+                  )}
+                </div>
+              );
+            })}
           </div>
-          
-          {/* 标准卡片 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {standardCards.map((card) => (
-              <div 
-                key={card.id}
-                className="bg-gray-800/30 border border-gray-700/50 rounded-lg p-6 hover:border-purple-500/30 transition-all duration-300"
-              >
-                <div className="flex mb-4">
-                  <span className="text-4xl text-purple-500 leading-none">"</span>
-                </div>
-                <p className="text-gray-200 font-medium mb-4">{card.quote}</p>
-                <div className="flex justify-end mb-4">
-                  <span className="text-4xl text-purple-500 leading-none">"</span>
-                </div>
-                <p className="text-sm text-gray-400">{card.description}</p>
+          {/* 标准卡片（体验设计项目） */}
+          <div>
+            {activeTab === "体验设计项目" && (
+              <div style={{display: 'flex', gap: '32px'}}>
+                {standardCards.map((card, idx) => (
+                  <div
+                    key={card.id}
+                    onMouseEnter={() => setHoveredStandardIndex(idx)}
+                    onMouseLeave={() => setHoveredStandardIndex(null)}
+                    style={{
+                      width: '412px',
+                      height: '206px',
+                      background: 'rgba(255,255,255,0.06)',
+                      borderRadius: '10px',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      transition: 'box-shadow 0.3s cubic-bezier(.4,2,.6,1)',
+                    }}
+                  >
+                    <div className="card-glow" style={{
+                      position: 'absolute',
+                      left: '50%',
+                      bottom: '0',
+                      transform: 'translateX(-50%)',
+                      width: '160%',
+                      height: '160px',
+                      background: `
+                        radial-gradient(ellipse 70% 60% at 50% 100%, rgba(154,77,255,0.13) 0%, rgba(154,77,255,0.07) 40%, rgba(154,77,255,0.02) 80%, rgba(154,77,255,0) 100%)
+                      `,
+                      opacity: hoveredStandardIndex === idx ? 1 : 0,
+                      transition: 'opacity 0.4s',
+                      pointerEvents: 'none',
+                      zIndex: 1,
+                      filter: 'blur(36px)',
+                      clipPath: 'ellipse(70% 50% at 50% 0%)'
+                    }} />
+                    {/* 背景图 */}
+                    <img src="/标准卡片背景.svg" alt="卡片背景" style={{position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0}} />
+                    {/* 标题 */}
+                    <div style={{position: 'relative', zIndex: 2, marginTop: '32px', width: '304px', textAlign: 'center', fontWeight: 500, fontSize: '14px', color: '#fff', lineHeight: '22px', wordBreak: 'break-all'}}>
+                      {card.quote}
+                    </div>
+                    {/* 正文 */}
+                    <div style={{position: 'relative', zIndex: 2, marginTop: '16px', width: '304px', textAlign: 'center', fontSize: '14px', color: 'rgba(255,255,255,0.8)', lineHeight: '22px', wordBreak: 'break-all'}}>
+                      {card.description}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
+            {activeTab === "创意项目" && (
+              <div style={{display: 'flex', gap: '32px'}}>
+                {[0,1,2,3].map((idx) => (
+                  <div
+                    key={idx}
+                    onMouseEnter={() => setHoveredCreativeIndex(idx)}
+                    onMouseLeave={() => setHoveredCreativeIndex(null)}
+                    style={{
+                      width: '302px',
+                      height: '206px',
+                      background: 'rgba(255,255,255,0.06)',
+                      borderRadius: '10px',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      transition: 'box-shadow 0.3s cubic-bezier(.4,2,.6,1)',
+                    }}
+                  >
+                    <div className="card-glow" style={{
+                      position: 'absolute',
+                      left: '50%',
+                      bottom: '0',
+                      transform: 'translateX(-50%)',
+                      width: '160%',
+                      height: '160px',
+                      background: `
+                        radial-gradient(ellipse 70% 60% at 50% 100%, rgba(154,77,255,0.13) 0%, rgba(154,77,255,0.07) 40%, rgba(154,77,255,0.02) 80%, rgba(154,77,255,0) 100%)
+                      `,
+                      opacity: hoveredCreativeIndex === idx ? 1 : 0,
+                      transition: 'opacity 0.4s',
+                      pointerEvents: 'none',
+                      zIndex: 1,
+                      filter: 'blur(36px)',
+                      clipPath: 'ellipse(70% 50% at 50% 0%)'
+                    }} />
+                    {/* 背景图 */}
+                    <img src="/标准卡片背景2.svg" alt="卡片背景" style={{position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0}} />
+                    {/* 标题 */}
+                    <div style={{position: 'relative', zIndex: 2, marginTop: '32px', width: '224px', textAlign: 'center', fontWeight: 500, fontSize: '14px', color: '#fff', lineHeight: '22px', wordBreak: 'break-all'}}>
+                      创意项目标题{idx+1}
+                    </div>
+                    {/* 正文 */}
+                    <div style={{position: 'relative', zIndex: 2, marginTop: '16px', width: '224px', textAlign: 'center', fontSize: '14px', color: 'rgba(255,255,255,0.8)', lineHeight: '22px', wordBreak: 'break-all'}}>
+                      这里是创意项目卡片的正文内容示例，可根据实际需求替换。
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -366,7 +661,7 @@ const Index = () => {
       {/* 底部区域 */}
       <footer className="relative z-10 py-8 border-t border-gray-800 mt-12">
         <div className="container mx-auto px-4 text-center text-gray-500 text-sm">
-          <p>© 2023 这设计妙 - 优秀设计项目展示平台</p>
+          <p>© 2025 这设计妙 - 8090项目展示平台｜mvp版 敬请期待</p>
         </div>
       </footer>
     </div>

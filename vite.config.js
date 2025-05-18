@@ -143,7 +143,7 @@ export default defineConfig({
   plugins: [
     PLUGINS
   ],
-  base: PUBLIC_PATH,
+  base: '/nocode-6c42701d309d48e8/',
   build: {
     outDir: OUT_DIR
   },

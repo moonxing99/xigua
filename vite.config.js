@@ -145,7 +145,7 @@ export default defineConfig({
   ],
   base: '/nocode-6c42701d309d48e8/',
   build: {
-    outDir: OUT_DIR,
+    outDir: 'dist',
     assetsDir: 'assets',
     rollupOptions: {
       output: {

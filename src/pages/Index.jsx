@@ -5,6 +5,7 @@ import { Search, Star, Sparkles, Heart, ArrowRight, ChevronLeft, ChevronRight } 
 import GameCard from "../components/GameCard";
 import { Link, useNavigate } from "react-router-dom";
 import StarParticles from "@/components/StarParticles";
+import { getImagePath } from "@/utils/imagePath";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -181,7 +182,7 @@ const Index = () => {
       <StarParticles />
       {/* 顶部吸顶背景图 */}
       <img 
-        src="/bg1.png" 
+        src={getImagePath("/bg1.png")}
         alt="bg1" 
         className="pointer-events-none select-none w-full absolute top-0 left-0 z-0" 
         style={{
@@ -192,7 +193,7 @@ const Index = () => {
       />
       {/* 底部吸底背景图 */}
       <img 
-        src="/bg2.png" 
+        src={getImagePath("/bg2.png")}
         alt="bg2" 
         className="pointer-events-none select-none w-full absolute bottom-0 left-0 z-0" 
         style={{
@@ -207,7 +208,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-0 flex items-center justify-between h-full">
           <div className="flex items-center space-x-12 h-full">
             <div className="flex items-center space-x-2">
-              <img src="/logo.svg" alt="这设计妙" className="h-7" />
+              <img src={getImagePath("/logo.svg")} alt="这设计妙" className="h-7" />
             </div>
             <nav className="hidden md:flex space-x-6 h-full">
               <Link to="/" className="text-[#9A4DFF] border-b-2 border-[#9A4DFF] pb-[13px] h-full flex items-end">首页</Link>
@@ -259,7 +260,7 @@ const Index = () => {
       <section className="relative z-10 overflow-hidden h-[468px] mt-[36px] mb-[66px] max-w-[1360px] w-full mx-auto flex items-start p-0">
         {/* 精选项目区域背景图 */}
         <img 
-          src="/精选项目背景.png" 
+          src={getImagePath("/精选项目背景.png")}
           alt="精选项目背景" 
           className="absolute left-0 top-0 z-0" 
           style={{
@@ -289,7 +290,7 @@ const Index = () => {
                 }}
               >
                 {featuredIndex === 0 && (
-                  <img src="/new.svg" alt="new" style={{marginRight: 4, height: 16, width: 32, display: 'inline-block', verticalAlign: 'middle'}} />
+                  <img src={getImagePath("/new.svg")} alt="new" style={{marginRight: 4, height: 16, width: 32, display: 'inline-block', verticalAlign: 'middle'}} />
                 )}
                 {`2025年第${28 - featuredIndex}期`}
               </span>
@@ -354,7 +355,7 @@ const Index = () => {
               >
                 <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%'}}>
                   去看看
-                  <img src="/star.svg" alt="star" style={{marginLeft: 4, height: 14, width: 21, verticalAlign: 'middle'}} />
+                  <img src={getImagePath("/star.svg")} alt="star" style={{marginLeft: 4, height: 14, width: 21, verticalAlign: 'middle'}} />
                 </span>
               </button>
             </div>
@@ -380,7 +381,7 @@ const Index = () => {
                   transition: 'background 0.2s, border 0.2s',
                 }}
               >
-                <img src="/left.svg" alt="上一张" style={{width: 24, height: 24}} />
+                <img src={getImagePath("/left.svg")} alt="上一张" style={{width: 24, height: 24}} />
               </button>
               <button
                 onClick={handleNext}
@@ -399,7 +400,7 @@ const Index = () => {
                   transition: 'background 0.2s, border 0.2s',
                 }}
               >
-                <img src="/right.svg" alt="下一张" style={{width: 24, height: 24}} />
+                <img src={getImagePath("/right.svg")} alt="下一张" style={{width: 24, height: 24}} />
               </button>
             </div>
             {featuredImages.map((img, i) => {
@@ -492,7 +493,7 @@ const Index = () => {
       {/* 90+标准区域 */}
       <section className="relative z-10" style={{width: '1360px', minHeight: '370px', margin: '0 auto', position: 'relative'}}>
         {/* 90+标准区背景图 */}
-        <img src="/90标准说明.svg" alt="90+标准说明" style={{position: 'absolute', left: 0, top: 0, width: '1360px', height: '370px', objectFit: 'cover', zIndex: 0}} />
+        <img src={getImagePath("/90标准说明.svg")} alt="90+标准说明" style={{position: 'absolute', left: 0, top: 0, width: '1360px', height: '370px', objectFit: 'cover', zIndex: 0}} />
         {/* 右上角文字链接 */}
         <a
           href="#"
@@ -509,7 +510,7 @@ const Index = () => {
             zIndex: 2
           }}
         >
-          <img src="/link-o.svg" alt="link" style={{width: 16, height: 16, marginRight: 4, display: 'inline-block', verticalAlign: 'middle'}} />
+          <img src={getImagePath("/link-o.svg")} alt="link" style={{width: 16, height: 16, marginRight: 4, display: 'inline-block', verticalAlign: 'middle'}} />
           设计部90+项目标准
         </a>
         <div className="container mx-auto relative z-10" style={{height: '100%', paddingLeft: '24px', paddingBottom: '24px'}}>
@@ -544,7 +545,7 @@ const Index = () => {
                     {tab}
                   </button>
                   {selected && (
-                    <img src="/选择条.svg" alt="tab高亮" style={{marginTop: 0, width: 109, height: 12}} />
+                    <img src={getImagePath("/选择条.svg")} alt="tab高亮" style={{marginTop: 0, width: 109, height: 12}} />
                   )}
                 </div>
               );
@@ -590,7 +591,7 @@ const Index = () => {
                       clipPath: 'ellipse(70% 50% at 50% 0%)'
                     }} />
                     {/* 背景图 */}
-                    <img src="/标准卡片背景.svg" alt="卡片背景" style={{position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0}} />
+                    <img src={getImagePath("/标准卡片背景.svg")} alt="卡片背景" style={{position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0}} />
                     {/* 标题 */}
                     <div style={{position: 'relative', zIndex: 2, marginTop: '32px', width: '304px', textAlign: 'center', fontWeight: 500, fontSize: '14px', color: '#fff', lineHeight: '22px', wordBreak: 'break-all'}}>
                       {card.quote}
@@ -641,7 +642,7 @@ const Index = () => {
                       clipPath: 'ellipse(70% 50% at 50% 0%)'
                     }} />
                     {/* 背景图 */}
-                    <img src="/标准卡片背景2.svg" alt="卡片背景" style={{position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0}} />
+                    <img src={getImagePath("/标准卡片背景2.svg")} alt="卡片背景" style={{position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0}} />
                     {/* 标题 */}
                     <div style={{position: 'relative', zIndex: 2, marginTop: '32px', width: '224px', textAlign: 'center', fontWeight: 500, fontSize: '14px', color: '#fff', lineHeight: '22px', wordBreak: 'break-all'}}>
                       创意项目标题{idx+1}

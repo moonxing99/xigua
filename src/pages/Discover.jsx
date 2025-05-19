@@ -217,7 +217,7 @@ export default function Discover() {
         <div className="container mx-auto px-4 py-0 flex items-center justify-between h-full">
           <div className="flex items-center space-x-12 h-full">
             <div className="flex items-center space-x-2">
-              <img {...getOptimizedImageProps(getImagePath("/logo.svg"), "这设计妙")} className="h-7" />
+              <img {...getOptimizedImageProps("/logo.svg", "这设计妙")} className="h-7" />
             </div>
             <nav className="hidden md:flex space-x-6 h-full">
               <Link to="/" className="text-[#F3F3F4] hover:text-[#9A4DFF] transition-colors h-full flex items-end pb-[13px] border-b-2 border-transparent">首页</Link>

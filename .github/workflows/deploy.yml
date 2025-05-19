@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -16,16 +17,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Set npm registry
         run: npm config set registry https://registry.npmmirror.com
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
       - name: Install Dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4

@@ -571,11 +571,11 @@ export default function Discover() {
                     </div>
                     <div className="flex items-center gap-4 text-xs text-white/50">
                       <span className="flex items-center gap-1">
-                        <img src="/fabulous-fill.svg" alt="点赞" style={{width: 16, height: 16}} />
+                        <img src={getImagePath("/fabulous-fill.svg")} alt="点赞" style={{width: 16, height: 16}} />
                         {p.like}
                       </span>
                       <span className="flex items-center gap-1">
-                        <img src="/visibility-on-fill.svg" alt="评论" style={{width: 16, height: 16}} />
+                        <img src={getImagePath("/visibility-on-fill.svg")} alt="评论" style={{width: 16, height: 16}} />
                         {p.view}
                       </span>
                     </div>

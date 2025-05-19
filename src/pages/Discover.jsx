@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import StarParticles from "@/components/StarParticles";
-import { getImagePath } from "@/utils/imagePath";
+import { getImagePath, getOptimizedImageProps } from "@/utils/imagePath";
 
 const filters = [
   { label: "筛选", type: "title" },
@@ -201,15 +201,23 @@ export default function Discover() {
       {/* 星星粒子动画 */}
       <StarParticles />
       {/* 顶部背景图 */}
-      <img src={getImagePath("/发现bg.png")} alt="发现页顶部背景" className="pointer-events-none select-none w-full absolute top-0 left-0 z-0" style={{objectFit: 'cover'}} />
+      <img 
+        {...getOptimizedImageProps("/发现bg.png", "发现页顶部背景")}
+        className="pointer-events-none select-none w-full absolute top-0 left-0 z-0" 
+        style={{objectFit: 'cover'}} 
+      />
       {/* 底部背景图 */}
-      <img src={getImagePath("/bg2.png")} alt="bg2" className="pointer-events-none select-none w-full absolute bottom-0 left-0 z-0" style={{objectFit: 'cover'}} />
+      <img 
+        {...getOptimizedImageProps("/bg2.png", "bg2")}
+        className="pointer-events-none select-none w-full absolute bottom-0 left-0 z-0" 
+        style={{objectFit: 'cover'}} 
+      />
       {/* 顶部导航栏 */}
       <header className="relative z-10 h-[52px] flex items-center border-none bg-transparent">
         <div className="container mx-auto px-4 py-0 flex items-center justify-between h-full">
           <div className="flex items-center space-x-12 h-full">
             <div className="flex items-center space-x-2">
-              <img src={getImagePath("/logo.svg")} alt="这设计妙" className="h-7" />
+              <img {...getOptimizedImageProps("/logo.svg", "这设计妙")} className="h-7" />
             </div>
             <nav className="hidden md:flex space-x-6 h-full">
               <Link to="/" className="text-[#F3F3F4] hover:text-[#9A4DFF] transition-colors h-full flex items-end pb-[13px] border-b-2 border-transparent">首页</Link>

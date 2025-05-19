@@ -5,7 +5,7 @@ import { Search, Star, Sparkles, Heart, ArrowRight, ChevronLeft, ChevronRight } 
 import GameCard from "../components/GameCard";
 import { Link, useNavigate } from "react-router-dom";
 import StarParticles from "@/components/StarParticles";
-import { getImagePath } from "@/utils/imagePath";
+import { getImagePath, getOptimizedImageProps } from "@/utils/imagePath";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -182,8 +182,7 @@ const Index = () => {
       <StarParticles />
       {/* 顶部吸顶背景图 */}
       <img 
-        src={getImagePath("/bg1.png")}
-        alt="bg1" 
+        {...getOptimizedImageProps("/bg1.png", "bg1")}
         className="pointer-events-none select-none w-full absolute top-0 left-0 z-0" 
         style={{
           objectFit: 'cover',
@@ -193,8 +192,7 @@ const Index = () => {
       />
       {/* 底部吸底背景图 */}
       <img 
-        src={getImagePath("/bg2.png")}
-        alt="bg2" 
+        {...getOptimizedImageProps("/bg2.png", "bg2")}
         className="pointer-events-none select-none w-full absolute bottom-0 left-0 z-0" 
         style={{
           objectFit: 'cover',
@@ -208,7 +206,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-0 flex items-center justify-between h-full">
           <div className="flex items-center space-x-12 h-full">
             <div className="flex items-center space-x-2">
-              <img src={getImagePath("/logo.svg")} alt="这设计妙" className="h-7" />
+              <img {...getOptimizedImageProps("/logo.svg", "这设计妙")} className="h-7" />
             </div>
             <nav className="hidden md:flex space-x-6 h-full">
               <Link to="/" className="text-[#9A4DFF] border-b-2 border-[#9A4DFF] pb-[13px] h-full flex items-end">首页</Link>

@@ -143,7 +143,7 @@ export default defineConfig({
   plugins: [
     PLUGINS
   ],
-  base: '/',
+  base: '/xigua/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',

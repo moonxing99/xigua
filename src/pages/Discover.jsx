@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import StarParticles from "@/components/StarParticles";
+import { getImagePath } from "@/utils/imagePath";
 
 const filters = [
   { label: "筛选", type: "title" },
@@ -26,7 +27,7 @@ const projects = [
     desc: "团购和软硬件服务设计中心/创意营销设计组",
     tags: ["80+", "创意", "C端"],
     badge: "2025年第28期",
-    img: "/1.png",
+    img: getImagePath("/1.png"),
     like: 126,
     view: 813,
   },
@@ -35,7 +36,7 @@ const projects = [
     desc: "美团平台设计中心/用户增长与运营设计组",
     tags: ["80+", "创意", "C端"],
     badge: "2025年第27期",
-    img: "/2.png",
+    img: getImagePath("/2.png"),
     like: 126,
     view: 813,
   },
@@ -44,7 +45,7 @@ const projects = [
     desc: "异地地图探索模式设计",
     tags: ["90+", "体验", "C端"],
     badge: "2025年第26期",
-    img: "/3.png",
+    img: getImagePath("/3.png"),
     like: 126,
     view: 813,
   },
@@ -53,7 +54,7 @@ const projects = [
     desc: "乐生活春节大促营销活动",
     tags: ["80+", "创意", "C端"],
     badge: "2025年第25期",
-    img: "/4.png",
+    img: getImagePath("/4.png"),
     like: 126,
     view: 813,
   },
@@ -62,7 +63,7 @@ const projects = [
     desc: "品牌创意设计中心/品牌设计组",
     tags: ["80+", "创意", "C端"],
     badge: "2025年第24期",
-    img: "/5.png",
+    img: getImagePath("/5.png"),
     like: 126,
     view: 813,
   },
@@ -71,7 +72,7 @@ const projects = [
     desc: "基础研发平台设计中心",
     tags: ["80+", "创意", "B端"],
     badge: "2025年第23期",
-    img: "/6.png",
+    img: getImagePath("/6.png"),
     like: 126,
     view: 813,
   },
@@ -80,7 +81,7 @@ const projects = [
     desc: "酒旅设计中心/创意营销设计组",
     tags: ["80+", "创意", "C端"],
     badge: "2025年第22期",
-    img: "/7.png",
+    img: getImagePath("/7.png"),
     like: 126,
     view: 813,
   },
@@ -89,7 +90,7 @@ const projects = [
     desc: "外卖和履约平台设计中心/外卖用户端设计组",
     tags: ["80+","体验", "C端"],
     badge: "2025年第21期",
-    img: "/8.png",
+    img: getImagePath("/8.png"),
     like: 126,
     view: 813,
   },
@@ -98,7 +99,7 @@ const projects = [
     desc: "美团安心学物料手册",
     tags: ["80+", "创意", "文创"],
     badge: "2025年第20期",
-    img: "/9.png",
+    img: getImagePath("/9.png"),
     like: 126,
     view: 813,
   },
@@ -200,15 +201,15 @@ export default function Discover() {
       {/* 星星粒子动画 */}
       <StarParticles />
       {/* 顶部背景图 */}
-      <img src="/发现bg.png" alt="发现页顶部背景" className="pointer-events-none select-none w-full absolute top-0 left-0 z-0" style={{objectFit: 'cover'}} />
+      <img src={getImagePath("/发现bg.png")} alt="发现页顶部背景" className="pointer-events-none select-none w-full absolute top-0 left-0 z-0" style={{objectFit: 'cover'}} />
       {/* 底部背景图 */}
-      <img src="/bg2.png" alt="bg2" className="pointer-events-none select-none w-full absolute bottom-0 left-0 z-0" style={{objectFit: 'cover'}} />
+      <img src={getImagePath("/bg2.png")} alt="bg2" className="pointer-events-none select-none w-full absolute bottom-0 left-0 z-0" style={{objectFit: 'cover'}} />
       {/* 顶部导航栏 */}
       <header className="relative z-10 h-[52px] flex items-center border-none bg-transparent">
         <div className="container mx-auto px-4 py-0 flex items-center justify-between h-full">
           <div className="flex items-center space-x-12 h-full">
             <div className="flex items-center space-x-2">
-              <img src="/logo.svg" alt="这设计妙" className="h-7" />
+              <img src={getImagePath("/logo.svg")} alt="这设计妙" className="h-7" />
             </div>
             <nav className="hidden md:flex space-x-6 h-full">
               <Link to="/" className="text-[#F3F3F4] hover:text-[#9A4DFF] transition-colors h-full flex items-end pb-[13px] border-b-2 border-transparent">首页</Link>
@@ -216,7 +217,12 @@ export default function Discover() {
             </nav>
           </div>
           <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
+            <img
+              src={getImagePath("/头像.PNG")}
+              alt="头像"
+              className="w-8 h-8 rounded-full object-cover"
+              style={{ background: "rgba(255,255,255,0.1)" }}
+            />
           </div>
         </div>
         <div className="absolute left-0 bottom-0 w-full h-px" style={{background: 'rgba(255,255,255,0.15)'}} />
@@ -232,7 +238,7 @@ export default function Discover() {
             position: 'sticky',
             top: '172px',
             zIndex: 20,
-            background: 'url(/搜索栏bg.png) no-repeat center/cover',
+            background: `url(${getImagePath('/搜索栏bg.png')}) no-repeat center/cover`,
             borderRadius: '12px',
             padding: '16px',
             boxShadow: '0 2px 24px 0 rgba(80,40,120,0.10)',

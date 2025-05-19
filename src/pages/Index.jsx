@@ -74,11 +74,11 @@ const Index = () => {
 
   // 精选项目图片资源
   const featuredImages = [
-    '/pj1.png',
-    '/pj2.png',
-    '/pj3.png',
-    '/pj4.png',
-    '/pj5.png',
+    getImagePath('/pj1.png'),
+    getImagePath('/pj2.png'),
+    getImagePath('/pj3.png'),
+    getImagePath('/pj4.png'),
+    getImagePath('/pj5.png'),
   ];
 
   // 项目卡片数据

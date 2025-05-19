@@ -216,7 +216,24 @@ const Index = () => {
             </nav>
           </div>
           <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
+            <span
+              style={{
+                marginRight: 16,
+                fontSize: 12,
+                fontWeight: 200,
+                color: "rgba(255,255,255,0.4)",
+                letterSpacing: 0,
+                lineHeight: "16px"
+              }}
+            >
+              目前是MVP版本，已燃尽TT
+            </span>
+            <img
+              src={getImagePath("/头像.PNG")}
+              alt="头像"
+              className="w-8 h-8 rounded-full object-cover"
+              style={{ background: "rgba(255,255,255,0.1)" }}
+            />
           </div>
         </div>
         {/* header底部分割线 */}

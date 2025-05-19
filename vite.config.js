@@ -143,7 +143,7 @@ export default defineConfig({
   plugins: [
     PLUGINS
   ],
-  base: '/xigua/',
+  base: process.env.NODE_ENV === 'production' ? '/xigua/' : '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',

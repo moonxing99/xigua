@@ -611,7 +611,7 @@ const Index = () => {
                       {card.quote}
                     </div>
                     {/* 正文 */}
-                    <div style={{position: 'relative', zIndex: 2, marginTop: '16px', width: '304px', textAlign: 'center', fontSize: '14px', color: 'rgba(255,255,255,0.8)', lineHeight: '22px', wordBreak: 'break-all'}}>
+                    <div style={{position: 'relative', zIndex: 2, marginTop: '16px', width: '304px', textAlign: 'left', fontSize: '14px', color: 'rgba(255,255,255,0.8)', lineHeight: '22px', wordBreak: 'break-all'}}>
                       {card.description}
                     </div>
                   </div>
@@ -620,53 +620,67 @@ const Index = () => {
             )}
             {activeTab === "创意项目" && (
               <div style={{display: 'flex', gap: '32px'}}>
-                {[0,1,2,3].map((idx) => (
-                  <div
-                    key={idx}
-                    onMouseEnter={() => setHoveredCreativeIndex(idx)}
-                    onMouseLeave={() => setHoveredCreativeIndex(null)}
-                    style={{
-                      width: '302px',
-                      height: '206px',
-                      background: 'rgba(255,255,255,0.06)',
-                      borderRadius: '10px',
-                      position: 'relative',
-                      overflow: 'hidden',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      transition: 'box-shadow 0.3s cubic-bezier(.4,2,.6,1)',
-                    }}
-                  >
-                    <div className="card-glow" style={{
-                      position: 'absolute',
-                      left: '50%',
-                      bottom: '0',
-                      transform: 'translateX(-50%)',
-                      width: '160%',
-                      height: '160px',
-                      background: `
-                        radial-gradient(ellipse 70% 60% at 50% 100%, rgba(154,77,255,0.13) 0%, rgba(154,77,255,0.07) 40%, rgba(154,77,255,0.02) 80%, rgba(154,77,255,0) 100%)
-                      `,
-                      opacity: hoveredCreativeIndex === idx ? 1 : 0,
-                      transition: 'opacity 0.4s',
-                      pointerEvents: 'none',
-                      zIndex: 1,
-                      filter: 'blur(36px)',
-                      clipPath: 'ellipse(70% 50% at 50% 0%)'
-                    }} />
-                    {/* 背景图 */}
-                    <img src={getImagePath("/标准卡片背景2.svg")} alt="卡片背景" style={{position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0}} />
-                    {/* 标题 */}
-                    <div style={{position: 'relative', zIndex: 2, marginTop: '32px', width: '224px', textAlign: 'center', fontWeight: 500, fontSize: '14px', color: '#fff', lineHeight: '22px', wordBreak: 'break-all'}}>
-                      创意项目标题{idx+1}
+                {[0,1,2,3].map((idx) => {
+                  const creativeTitles = [
+                    "创意设计方案为业务带来超出预期的业务结果",
+                    "有温度的创意设计，能产生大范围自传播，有正向社会影响；对内文创类应收获大范围客户正向口碑",
+                    "能获得行业内大奖，被行业内专业媒体或专业机构认可",
+                    "能为设计部创意设计理论体系贡献价值，产生设计部可复用经验（体验标准和方法）"
+                  ];
+                  const creativeDescs = [
+                    "设计结果助力业务获得合作资格，例如数字人民币营销活动设计项目助力金服业务获得中国银行服贸会展台唯一供应商资格",
+                    "博物馆鲜花、新中式鲜花设计，在未有较多外部市场投入的前提下，引起了微博等渠道的千万级话题传播",
+                    "公共获奖、合作获奖，设计是关键影响因素之一，例如袋鼠乐园设计；或者专业设计大奖，例如IF设计大奖、红点设计大奖、包装设计大奖",
+                    "包括专业判断标准（IP判断框架等）；专业执行方法；新技术新能力的引入和推广"
+                  ];
+                  return (
+                    <div
+                      key={idx}
+                      onMouseEnter={() => setHoveredCreativeIndex(idx)}
+                      onMouseLeave={() => setHoveredCreativeIndex(null)}
+                      style={{
+                        width: '302px',
+                        height: '206px',
+                        background: 'rgba(255,255,255,0.06)',
+                        borderRadius: '10px',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        transition: 'box-shadow 0.3s cubic-bezier(.4,2,.6,1)',
+                      }}
+                    >
+                      <div className="card-glow" style={{
+                        position: 'absolute',
+                        left: '50%',
+                        bottom: '0',
+                        transform: 'translateX(-50%)',
+                        width: '160%',
+                        height: '160px',
+                        background: `
+                          radial-gradient(ellipse 70% 60% at 50% 100%, rgba(154,77,255,0.13) 0%, rgba(154,77,255,0.07) 40%, rgba(154,77,255,0.02) 80%, rgba(154,77,255,0) 100%)
+                        `,
+                        opacity: hoveredCreativeIndex === idx ? 1 : 0,
+                        transition: 'opacity 0.4s',
+                        pointerEvents: 'none',
+                        zIndex: 1,
+                        filter: 'blur(36px)',
+                        clipPath: 'ellipse(70% 50% at 50% 0%)'
+                      }} />
+                      {/* 背景图 */}
+                      <img src={getImagePath("/标准卡片背景2.svg")} alt="卡片背景" style={{position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0}} />
+                      {/* 标题 */}
+                      <div style={{position: 'relative', zIndex: 2, marginTop: '32px', width: '224px', textAlign: 'center', fontWeight: 500, fontSize: '14px', color: '#fff', lineHeight: '22px', wordBreak: 'break-all'}}>
+                        {creativeTitles[idx]}
+                      </div>
+                      {/* 正文 */}
+                      <div style={{position: 'relative', zIndex: 2, marginTop: '16px', width: '230px', textAlign: 'left', fontSize: '14px', color: 'rgba(255,255,255,0.8)', lineHeight: '22px', wordBreak: 'break-all'}}>
+                        {creativeDescs[idx]}
+                      </div>
                     </div>
-                    {/* 正文 */}
-                    <div style={{position: 'relative', zIndex: 2, marginTop: '16px', width: '224px', textAlign: 'center', fontSize: '14px', color: 'rgba(255,255,255,0.8)', lineHeight: '22px', wordBreak: 'break-all'}}>
-                      这里是创意项目卡片的正文内容示例，可根据实际需求替换。
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>

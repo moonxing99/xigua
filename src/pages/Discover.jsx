@@ -236,16 +236,14 @@ export default function Discover() {
         <div className="absolute left-0 bottom-0 w-full h-px" style={{background: 'rgba(255,255,255,0.15)'}} />
       </header>
       {/* 主内容区 */}
-      <main className="flex-1 flex w-full max-w-[1440px] mx-auto mt-2 relative z-10">
+      <main className="flex-1 flex w-full max-w-[1440px] mx-auto relative z-10">
         {/* 左侧筛选栏 */}
         <aside
           className="flex-shrink-0"
           style={{
             width: '200px',
             height: '714px',
-            position: 'sticky',
-            top: '172px',
-            zIndex: 20,
+            marginTop: '112px',
             background: `url(${getImagePath('/搜索栏bg.png')}) no-repeat center/cover`,
             borderRadius: '12px',
             padding: '16px',

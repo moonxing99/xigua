@@ -586,6 +586,12 @@ export default function Discover() {
           </div>
         </section>
       </main>
+      {/* 底部区域 */}
+      <footer className="relative z-10 py-8 border-t border-gray-800 mt-12">
+        <div className="container mx-auto px-4 text-center text-gray-500 text-sm">
+          <p>© 2025 这设计妙 - 8090项目展示平台｜mvp版 敬请期待</p>
+        </div>
+      </footer>
     </div>
   );
 } 

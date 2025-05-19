@@ -456,13 +456,13 @@ const Index = () => {
             {projectCards.map((card) => {
               let imgProps = null;
               if (card.title === "90+项目") {
-                imgProps = { src: "/kard1.png", alt: "90+项目" };
+                imgProps = getOptimizedImageProps("/kard1.png", "90+项目");
               } else if (card.title === "80+项目") {
-                imgProps = { src: "/kard2.png", alt: "80+项目" };
+                imgProps = getOptimizedImageProps("/kard2.png", "80+项目");
               } else if (card.title === "创意项目") {
-                imgProps = { src: "/kard3.png", alt: "创意项目" };
+                imgProps = getOptimizedImageProps("/kard3.png", "创意项目");
               } else if (card.title === "体验项目") {
-                imgProps = { src: "/kard4.png", alt: "体验项目" };
+                imgProps = getOptimizedImageProps("/kard4.png", "体验项目");
               }
               if (imgProps) {
                 return (
@@ -475,7 +475,6 @@ const Index = () => {
                     <img
                       {...imgProps}
                       style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: 0 }}
-                      alt={imgProps.alt}
                     />
                   </div>
                 );

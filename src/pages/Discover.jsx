@@ -217,7 +217,7 @@ export default function Discover() {
         <div className="container mx-auto px-4 py-0 flex items-center justify-between h-full">
           <div className="flex items-center space-x-12 h-full">
             <div className="flex items-center space-x-2">
-              <img {...getOptimizedImageProps("/logo.svg", "这设计妙")} className="h-7" />
+              <img {...getOptimizedImageProps(getImagePath("/logo.svg"), "这设计妙")} className="h-7" />
             </div>
             <nav className="hidden md:flex space-x-6 h-full">
               <Link to="/" className="text-[#F3F3F4] hover:text-[#9A4DFF] transition-colors h-full flex items-end pb-[13px] border-b-2 border-transparent">首页</Link>
@@ -262,7 +262,7 @@ export default function Discover() {
             width: '100%'
           }}>
             <div style={{display: 'flex', alignItems: 'center'}}>
-              <img src="/slider-settings.svg" alt="筛选设置" style={{width: 16, height: 16, marginRight: 4}} />
+              <img src={getImagePath("/slider-settings.svg")} alt="筛选设置" style={{width: 16, height: 16, marginRight: 4}} />
               <span style={{fontSize: 16, fontWeight: 400, color: '#fff'}}>筛选</span>
             </div>
             <button
@@ -299,7 +299,7 @@ export default function Discover() {
                 appearance: 'none',
                 WebkitAppearance: 'none',
                 MozAppearance: 'none',
-                backgroundImage: 'url(/箭头_v_小_下.svg)',
+                backgroundImage: `url(${getImagePath('/箭头_v_小_下.svg')})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'right 8px center',
                 backgroundSize: '16px 16px'
@@ -330,7 +330,7 @@ export default function Discover() {
                 appearance: 'none',
                 WebkitAppearance: 'none',
                 MozAppearance: 'none',
-                backgroundImage: 'url(/箭头_v_小_下.svg)',
+                backgroundImage: `url(${getImagePath('/箭头_v_小_下.svg')})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'right 8px center',
                 backgroundSize: '16px 16px'
@@ -452,7 +452,7 @@ export default function Discover() {
                 <option>最热</option>
               </select>
               <img
-                src="/箭头_v_小_下.svg"
+                src={getImagePath("/箭头_v_小_下.svg")}
                 alt="下拉"
                 style={{
                   position: 'absolute',
